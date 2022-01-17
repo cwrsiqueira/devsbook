@@ -17,6 +17,11 @@ class LoginHandler {
                 $loggedUser->id = $data['id'];
                 $loggedUser->email = $data['email'];
                 $loggedUser->name = $data['name'];
+                $loggedUser->birthdate = $data['birthdate'];
+                $loggedUser->city = $data['city'];
+                $loggedUser->work = $data['work'];
+                $loggedUser->avatar = $data['avatar'];
+                $loggedUser->cover = $data['cover'];
 
                 return $loggedUser;
 
@@ -33,7 +38,7 @@ class LoginHandler {
 
         if($user) {
             if(password_verify($password, $user['password'])) {
-                $token = hash(md5(time().rand(0,9999)));
+                $token = hash('md5', time().rand(0,9999));
                 User::update()
                 ->set('token', $token)
                 ->where('email', $email)
@@ -45,6 +50,26 @@ class LoginHandler {
 
         return false;
 
+    }
+
+    public static function emailExists($email) {
+        $user = User::select()->where('email', $email)->one();
+        return $user ? true : false;
+    }
+
+    public static function addUser($name, $email, $password, $birthdate) {
+        $hash = password_hash($password, PASSWORD_DEFAULT);
+        $token = hash('md5', time().rand(0,9999));
+        
+        User::insert([
+            'name' => $name,
+            'email' => $email,
+            'password' => $hash,
+            'birthdate' => $birthdate,
+            'token' => $token,
+        ])->execute();
+
+        return $token;
     }
 
 }
