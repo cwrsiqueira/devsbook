@@ -5,7 +5,7 @@
                 <a href="<?=$base;?>"><img src="<?=$base;?>/media/avatars/<?=$data->user->avatar;?>" /></a>
             </div>
             <div class="feed-item-head-info">
-                <a href="<?=$base;?>"><span class="fidi-name"><?=$data->user->name;?></span></a>
+                <a href="<?=$base;?>/perfil/<?=$data->user->id;?>"><span class="fidi-name"><?=$data->user->name;?></span></a>
                 <span class="fidi-action">
                     <?php switch ($data->type) {
                         case 'text':

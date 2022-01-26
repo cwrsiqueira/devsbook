@@ -85,7 +85,7 @@ class UserHandler {
                 // Followers
                 $followers = UserRelation::select()->where('user_to', $id)->get();
                 foreach ($followers as $follower) {
-                    $userData = User::select()->where('id', $follower['user_from'])->get();
+                    $userData = User::select()->where('id', $follower['user_from'])->first();
 
                     $newUser = new User();
                     $newUser->id = $userData['id'];
@@ -98,7 +98,7 @@ class UserHandler {
                 // Following
                 $followings = UserRelation::select()->where('user_from', $id)->get();
                 foreach ($followings as $following) {
-                    $userData = User::select()->where('id', $following['user_to'])->get();
+                    $userData = User::select()->where('id', $following['user_to'])->first();
 
                     $newUser = new User();
                     $newUser->id = $userData['id'];
@@ -131,6 +131,28 @@ class UserHandler {
         ])->execute();
 
         return $token;
+    }
+
+    public static function isFollowing($from, $to) {
+        $data = UserRelation::select()->where('user_from', $from)->where('user_to', $to)->one();
+        if($data) {
+            return true;
+        }
+        return false;
+    }
+
+    public static function follow($from, $to) {
+        UserRelation::insert([
+            'user_from' => $from,
+            'user_to' => $to
+        ])->execute();
+    }
+
+    public static function unfollow($from, $to) {
+        UserRelation::delete()
+            ->where('user_from', $from)
+            ->where('user_to', $to)
+        ->execute();
     }
 
 }
