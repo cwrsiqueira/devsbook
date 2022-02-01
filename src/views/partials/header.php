@@ -16,7 +16,7 @@
                 <div class="head-side-left">
                     <div class="search-area">
                         <form method="GET" action="<?=$base;?>/pesquisa">
-                            <input type="search" placeholder="Pesquisar" name="s" />
+                            <input type="search" placeholder="Pesquisar" name="s" value="<?=(!empty($searchTerm))?$searchTerm:'';?>" />
                         </form>
                     </div>
                 </div>
