@@ -8,23 +8,33 @@
 
                     <h1 style="color:#555;">Configurações</h1>
 
-                    <?php if(!empty($_SESSION['flash'])): ?>
-                        <div class="alert"><?php echo $_SESSION['flash']; ?></div>
+                    <?php if(!empty($flash)): ?>
+
+                        <?php foreach ($flash as $key => $value): ?>
+                            <?php switch($key): 
+                                case "error": ?>
+                                    <div class="alert"><?=$value;?></div>
+                                    <?php break; 
+                                case 'success': ?>
+                                    <div class="success"><?=$value;?></div>
+                                    <?php break; 
+                            endswitch; ?>
+                            
+                        <?php endforeach; ?>
+                        
                     <?php endif; ?>
 
-                    <?php if(!empty($_SESSION['success'])): ?>
-                        <div class="success"><?php echo $_SESSION['success']; ?></div>
-                    <?php endif; ?>
-
-                    <form action="<?=$base;?>/config/<?=$loggedUser->id;?>/edit" method="post">
+                    <form action="<?=$base;?>/config/<?=$loggedUser->id;?>/edit" method="post" enctype="multipart/form-data">
 
                         <div class="up-files-area">
                             <label for="avatar">Novo Avatar: <br>
-                                <input type="file" name="avatar" id="avatar" value="<?=$loggedUser->avatar?>">
+                                <input type="file" name="avatar" id="avatar" value="<?=$loggedUser->avatar?>"><br>
+                                <img class="image-edit" src="<?=$base;?>/media/avatars/<?=$loggedUser->avatar?>">
                             </label>
 
                             <label for="cover">Nova Capa: <br>
-                                <input type="file" name="cover" id="cover" value="<?=$loggedUser->cover?>">
+                                <input type="file" name="cover" id="cover" value="<?=$loggedUser->cover?>"><br>
+                                <img class="image-edit" src="<?=$base;?>/media/covers/<?=$loggedUser->cover?>">
                             </label>
                         </div>
 

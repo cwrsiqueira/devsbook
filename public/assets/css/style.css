@@ -450,6 +450,9 @@ header .head-side {
     border: 0;
     outline: 0;
 }
+.up-files-area .image-edit {
+    max-height: 150px;
+}
 
 .alert {
     border: 1px solid red;
