@@ -171,4 +171,34 @@ class UserHandler {
         return $users;
     }
 
+    public static function editUser($id, $avatar, $cover, $name, $birthdate, $city, $work, $new_password) {
+
+        User::update([
+            'name' => $name,
+            'birthdate' => $birthdate,
+            'city' => $city,
+            'work' => $work,
+        ])->where('id', $id)->execute();
+
+        if(!empty($new_password)) {
+            $password = password_hash($new_password, PASSWORD_DEFAULT);
+            User::update([
+                'password' => $password,
+            ])->where('id', $id)->execute();
+        }
+
+        if(!empty($avatar)) {
+            User::update([
+                'avatar' => $avatar,
+            ])->where('id', $id)->execute();
+        }
+
+        if(!empty($cover)) {
+            User::update([
+                'avatar' => $cover,
+            ])->where('id', $id)->execute();
+        }
+
+        return true;
+    }
 }

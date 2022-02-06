@@ -19,6 +19,9 @@ $router->get('/perfil/{id}/follow', 'ProfileController@follow');
 $router->get('/perfil/{id}', 'ProfileController@index');
 $router->get('/perfil', 'ProfileController@index');
 
+$router->post('/config/{id}/edit', 'ConfigController@edit');
+$router->get('/config', 'ConfigController@index');
+
 $router->get('/fotos', 'ProfileController@fotos');
 $router->get('/amigos', 'ProfileController@friends');
 
