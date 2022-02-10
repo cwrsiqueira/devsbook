@@ -31,20 +31,22 @@
             <div class="msg-btn"><?=count($data->comments);?></div>
         </div>
         <div class="feed-item-comments">
-        
-            <?php foreach($data->comments as $comment): ?>
 
-            <div class="fic-item row m-height-10 m-width-20">
-                <div class="fic-item-photo">
-                    <a href="<?=$base;?>"><img src="<?=$base;?>/media/avatars/<?=$data->user->avatar;?>" /></a>
-                </div>
-                <div class="fic-item-info">
-                    <a href="<?=$base;?>"><?=$data->user->name;?></a>
-                    <?=$comment;?>
-                </div>
+            <div class="feed-item-comments-area">
+                <?php foreach($data->comments as $item): ?>
+                    
+                    <div class="fic-item row m-height-10 m-width-20">
+                        <div class="fic-item-photo">
+                            <a href="<?=$base;?>/perfil/<?=$item['user']['id']?>"><img src="<?=$base;?>/media/avatars/<?=$item['user']['avatar'];?>" /></a>
+                        </div>
+                        <div class="fic-item-info">
+                            <a href="<?=$base;?>/perfil/<?=$item['user']['id']?>"><?=$item['user']['name'];?></a>
+                            <?=$item['body'];?>
+                        </div>
+                    </div>
+
+                <?php endforeach; ?>
             </div>
-
-            <?php endforeach; ?>
 
             <div class="fic-answer row m-height-10 m-width-20">
                 <div class="fic-item-photo">

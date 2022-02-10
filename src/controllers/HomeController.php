@@ -23,7 +23,7 @@ class HomeController extends Controller {
             $this->loggedUser->id,
             $page
         );
-
+        
         $this->render('home', 
             [
                 'loggedUser' => $this->loggedUser,

@@ -3,6 +3,7 @@ namespace src\handlers;
 
 use \src\models\Post;
 use \src\models\PostLike;
+use \src\models\PostComment;
 use \src\models\User;
 use \src\models\UserRelation;
 
@@ -24,14 +25,24 @@ class PostHandler {
         }
     }
 
-    public static function addLike($id_post, $id_user) {
+    public static function addLike($id, $loggedUserId) {
         PostLike::insert(
             [
-                'id_post' => $id_post,
-                'id_user' => $id_user,
+                'id_post' => $id,
+                'id_user' => $loggedUserId,
                 'created_at' => date('Y-m-d H:i:s'),
             ]
         )->execute();
+    }
+
+    public static function addComment($id, $txt, $loggedUserId) {
+        
+        PostComment::insert([
+            'id_post' => $id,
+            'id_user' => $loggedUserId,
+            'created_at' => date('Y-m-d H:i:s'),
+            'body' => $txt,
+        ])->execute();
     }
 
     public static function delLike($id_post, $id_user) {
@@ -66,7 +77,10 @@ class PostHandler {
             $newPost->likeCount = count($likes);
             $newPost->liked = self::isLiked($postItem['id'], $loggedUserId);
 
-            $newPost->comments = [];
+            $newPost->comments = PostComment::select()->where('id_post', $postItem['id'])->get();
+            foreach ($newPost->comments as $key => $value) {
+                $newPost->comments[$key]['user'] = User::select()->where('id', $value['id_user'])->one();
+            }
 
             $posts[] = $newPost;
         }
@@ -162,5 +176,4 @@ class PostHandler {
         return $photos;
 
     }
-
 }
