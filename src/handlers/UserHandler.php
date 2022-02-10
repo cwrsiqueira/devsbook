@@ -195,7 +195,7 @@ class UserHandler {
 
         if(!empty($cover)) {
             User::update([
-                'avatar' => $cover,
+                'cover' => $cover,
             ])->where('id', $id)->execute();
         }
 

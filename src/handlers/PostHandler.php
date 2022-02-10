@@ -2,6 +2,7 @@
 namespace src\handlers;
 
 use \src\models\Post;
+use \src\models\PostLike;
 use \src\models\User;
 use \src\models\UserRelation;
 
@@ -21,6 +22,23 @@ class PostHandler {
                 ]
             )->execute();
         }
+    }
+
+    public static function addLike($id_post, $id_user) {
+        PostLike::insert(
+            [
+                'id_post' => $id_post,
+                'id_user' => $id_user,
+                'created_at' => date('Y-m-d H:i:s'),
+            ]
+        )->execute();
+    }
+
+    public static function delLike($id_post, $id_user) {
+        PostLike::delete()
+            ->where('id_post', $id_post)
+            ->where('id_user', $id_user)
+        ->execute();
     }
 
     private static function _postListToObject($postList, $loggedUserId) {
@@ -43,8 +61,10 @@ class PostHandler {
             $newPost->user->name = $newUser['name'];
             $newPost->user->avatar = $newUser['avatar'];
 
-            $newPost->likeCount = 0;
-            $newPost->liked = false;
+            $likes = PostLike::select()->where('id_post', $postItem['id'])->get();
+            
+            $newPost->likeCount = count($likes);
+            $newPost->liked = self::isLiked($postItem['id'], $loggedUserId);
 
             $newPost->comments = [];
 
@@ -52,6 +72,19 @@ class PostHandler {
         }
 
         return $posts;
+    }
+
+    public static function isLiked($id, $loggedUserId) {
+        $myLike = PostLike::select()
+            ->where('id_post', $id)
+            ->where('id_user', $loggedUserId)
+        ->get();
+
+        if(count($myLike) > 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static function getUserFeed($idUser, $page, $loggedUserId) {
