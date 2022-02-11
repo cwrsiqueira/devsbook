@@ -12,6 +12,7 @@ $router->get('/cadastro', 'LoginController@signup');
 $router->post('/cadastro', 'LoginController@signupAction');
 
 $router->post('/post/new', 'PostController@new');
+$router->get('/post/{id}/delete', 'PostController@delete');
 
 $router->get('/perfil/{id}/amigos', 'ProfileController@friends');
 $router->get('/perfil/{id}/fotos', 'ProfileController@fotos');
@@ -31,6 +32,7 @@ $router->get('/sair', 'LoginController@logout');
 
 $router->get('/ajax/like/{id}', 'AjaxController@like');
 $router->post('/ajax/comment', 'AjaxController@comment');
+$router->post('/ajax/upload', 'AjaxController@upload');
 
 // $router->get('/pesquisa');
 // $router->get('/perfil');

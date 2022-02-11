@@ -19,12 +19,24 @@
                 <br/>
                 <span class="fidi-date"><?=date('d/m/Y H:i', strtotime($data->created_at));?></span>
             </div>
-            <div class="feed-item-head-btn">
-                <img src="<?=$base;?>/assets/images/more.png" />
-            </div>
+            <?php if($data->mine): ?>
+                <div class="feed-item-head-btn">
+                    <img src="<?=$base;?>/assets/images/more.png" />
+                    <div class="feed-item-more-window">
+                        <a href="<?=$base;?>/post/<?=$data->id?>/delete">Excluir Post</a>
+                    </div>
+                </div>
+            <?php endif; ?>
         </div>
-        <div class="feed-item-body mt-10 m-width-20">
-            <?=nl2br($data->body);?>
+        <div class="feed-item-body mt-10 m-width-20">,
+            <?php switch($data->type): case 'text': ?>
+                    <?=nl2br($data->body);?>
+                    <?php break; ?>
+                <?php case 'photo': ?>
+                    <img src="<?=$base;?>/media/uploads/<?=$data->body?>">
+                    <?php break; ?>
+            <?php endswitch; ?>
+            
         </div>
         <div class="feed-item-buttons row mt-20 m-width-20">
             <div class="like-btn <?=($data->liked ? 'on' : '');?>"><?=$data->likeCount;?></div>

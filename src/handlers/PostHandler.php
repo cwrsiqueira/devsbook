@@ -102,7 +102,7 @@ class PostHandler {
     }
 
     public static function getUserFeed($idUser, $page, $loggedUserId) {
-        $perPage = 2;
+        $perPage = 10;
 
         $postList = Post::select()
             ->where('id_user', $idUser)
@@ -125,7 +125,7 @@ class PostHandler {
     }
 
     public static function getHomeFeed($idUser, $page) {
-        $perPage = 2;
+        $perPage = 10;
 
         $userList = UserRelation::select()->where('user_from', $idUser)->get();
 
@@ -175,5 +175,35 @@ class PostHandler {
 
         return $photos;
 
+    }
+
+    public static function delPost($id, $idUser) {
+
+        $posts = Post::select()
+            ->where('id', $id)
+            ->where('id_user', $idUser)
+        ->get();
+
+        if(count($posts) > 0) {
+            $post = $posts[0];
+
+            // Deletar os likes e comments
+            PostLike::delete()->where('id_post', $id)->execute();
+            PostComment::delete()->where('id_post', $id)->execute();
+
+            // Se o post for type photo, deletar o arquivo
+            if($post['type'] == 'photo') {
+                $img = __DIR__.'/../../public/media/uploads/'.$post['body'];
+                if(file_exists($img)) {
+                    unlink($img);
+                }
+            }
+
+            // deletar o post
+            Post::delete()
+                ->where('id', $id)
+                ->where('id_user', $idUser)
+            ->execute();
+        }
     }
 }
