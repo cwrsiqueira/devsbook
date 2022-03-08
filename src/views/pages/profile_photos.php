@@ -21,7 +21,7 @@
 
                                 <?php foreach($user->photos as $photo): ?>
                                     <div class="user-photo-item">
-                                        <a href="#modal-<?=$photo->id?>" rel="modal:open">
+                                        <a href="#modal-<?=$photo->id?>" data-modal-open>
                                             <img src="<?=$base;?>/media/uploads/<?=$photo->body?>" />
                                         </a>
                                         <div id="modal-<?=$photo->id?>" style="display:none">
@@ -43,4 +43,11 @@
         </section>
 
     </section>
+
+<script>
+    window.onload = function() {
+        var modal = new VanillaModal.default();
+    }
+</script>
+
 <?=$render('footer');

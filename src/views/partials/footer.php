@@ -1,6 +1,6 @@
 <div class="modal">
         <div class="modal-inner">
-            <a rel="modal:close">&times;</a>
+            <a data-modal-close>&times;</a>
             <div class="modal-content"></div>
         </div>
     </div>

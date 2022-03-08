@@ -83,7 +83,7 @@
                             <?php for($q=0;$q<4;$q++): ?>
                                 <?php if(isset($user->photos[$q])): ?>
                                     <div class="user-photo-item">
-                                        <a href="#modal-<?=$user->photos[$q]->id?>" rel="modal:open">
+                                        <a href="#modal-<?=$user->photos[$q]->id?>" data-modal-open>
                                             <img src="<?=$base;?>/media/uploads/<?=$user->photos[$q]->body?>" />
                                         </a>
                                         <div id="modal-<?=$user->photos[$q]->id?>" style="display:none">
@@ -120,4 +120,11 @@
         </section>
 
     </section>
+
+    <script>
+        window.onload = function() {
+            var modal = new VanillaModal.default();
+        }
+    </script>
+    
 <?=$render('footer');
